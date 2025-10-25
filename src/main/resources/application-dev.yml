@@ -1,5 +1,0 @@
-spring:
-  profiles: dev
-  data:
-    mongodb:
-      uri: mongodb://localhost:27017/content_processor_dev
