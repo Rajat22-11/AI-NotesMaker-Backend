@@ -1,0 +1,65 @@
+server:
+  port: 8080
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.security.oauth2: TRACE
+
+spring:
+  main:
+    web-application-type: servlet
+  application:
+    name: content-processor
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb://localhost:27017/content_processor_dev}
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
+
+  security:
+    oauth2:
+      client:
+        registration:
+          microsoft:
+            provider: microsoft
+            # --- USE PLACEHOLDERS ---
+            client-id: ${MICROSOFT_CLIENT_ID}
+            client-secret: ${MICROSOFT_CLIENT_SECRET}
+            # -----------------------
+            authorization-grant-type: authorization_code
+            scope: openid, profile, email, offline_access, Notes.ReadWrite, User.Read
+            redirect-uri:  http://localhost:8080/login/oauth2/code/microsoft
+
+        provider:
+          microsoft:
+            authorization-uri: https://login.microsoftonline.com/common/oauth2/v2.0/authorize
+            token-uri: https://login.microsoftonline.com/common/oauth2/v2.0/token
+            user-info-uri: https://graph.microsoft.com/v1.0/me
+            jwk-set-uri: https://login.microsoftonline.com/common/discovery/v2.0/keys
+            user-name-attribute: id
+
+# --- CUSTOM APPLICATION PROPERTIES ---
+app:
+  jwt:
+    # --- USE PLACEHOLDER ---
+    secret: ${JWT_SECRET}
+    # -----------------------
+    expiration: 604800000 # 7 days
+  storage:
+    upload-dir: ./uploads
+  cloudinary:
+    cloud-name: ${CLOUDINARY_CLOUD_NAME}
+    api-key: ${CLOUDINARY_API_KEY}
+    api-secret: ${CLOUDINARY_API_SECRET}
+  openai:
+    api-key: ${OPENAI_API_KEY}
+  cors:
+    allowed-origins: ${FRONTEND_URL:http://localhost:3000}

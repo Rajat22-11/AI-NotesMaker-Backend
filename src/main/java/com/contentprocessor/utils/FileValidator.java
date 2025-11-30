@@ -1,6 +1,6 @@
 package com.contentprocessor.utils;
 
-import org.apache.coyote.BadRequestException;
+import com.contentprocessor.exception.BadRequestException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Arrays;

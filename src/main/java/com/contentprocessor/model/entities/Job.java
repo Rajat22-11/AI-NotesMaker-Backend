@@ -28,8 +28,14 @@ public class Job {
     private User user;
 
     private SourceType sourceType;
-    private String sourceInput; // URL or text content
-    private String fileId; // Reference to FileMetadata if uploaded
+
+    // New fields used by service/tests
+    @DBRef
+    private FileMetadata fileMetadata; // reference to uploaded file entity
+
+    private String title;
+    private String url; // for YOUTUBE/Web
+    private String textContent; // for TEXT jobs
 
     private JobStatus status;
     private Integer progress = 0; // Percentage 0-100

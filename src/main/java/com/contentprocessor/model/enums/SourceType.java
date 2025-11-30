@@ -5,5 +5,9 @@ public enum SourceType {
     PDF,
     TEXT,
     VIDEO,
-    AUDIO
+    AUDIO,
+    // Aliases used by tests / older code
+    VIDEO_FILE,
+    AUDIO_FILE,
+    PDF_FILE
 }

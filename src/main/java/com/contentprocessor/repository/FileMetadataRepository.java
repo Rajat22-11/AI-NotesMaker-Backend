@@ -8,6 +8,7 @@ import java.util.List;
 
 @Repository
 public interface FileMetadataRepository extends MongoRepository<FileMetadata, String> {
-    List<FileMetadata> findByUserId(String userId);
-    void deleteByIdAndUserId(String id, String userId);
+    // query by the DBRef user's id
+    List<FileMetadata> findByUploadedById(String userId);
+    void deleteByIdAndUploadedById(String id, String userId);
 }

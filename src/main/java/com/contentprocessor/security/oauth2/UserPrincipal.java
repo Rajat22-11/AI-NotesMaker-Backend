@@ -85,6 +85,10 @@ public class UserPrincipal implements OidcUser {
         return user.getEmail(); // Use email for display or lookup
     }
 
+    public String getEmail() {
+        return user.getEmail();
+    }
+
     public boolean isEnabled() {
         return user.isEnabled();
     }

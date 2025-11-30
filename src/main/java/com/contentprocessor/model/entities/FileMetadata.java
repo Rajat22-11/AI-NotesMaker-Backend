@@ -7,9 +7,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -20,15 +22,40 @@ public class FileMetadata {
 
     @Id
     private String id;
-    private String originalFilename;
-    private String storedFilename; // Unique name in storage
+    private String originalFileName;
+    private String storedFileName; // Unique name in storage
     private FileType fileType;
+    private String localFilePath;
     private String cloudinaryUrl; // Or S3 Key
-    private long fileSize;
-    private String mimeType;
-    private String userId;
+    private String cloudinaryPublicId;
+    private Long fileSize;
+    private String contentType;
+
+    @DBRef
+    private User uploadedBy;
+
+    @Builder.Default
     private boolean processed = false;
 
     @CreatedDate
-    private Instant uploadedAt;
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
+
+
+    public String getFilePath() {
+        if (cloudinaryUrl != null) {
+            return cloudinaryUrl;
+        }
+        return localFilePath;
+    }
+
+    public boolean isCloudStored() {
+        return cloudinaryUrl != null;
+    }
+
+    public boolean isLocalStored() {
+        return localFilePath != null;
+    }
 }
